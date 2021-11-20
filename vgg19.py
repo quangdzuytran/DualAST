@@ -45,7 +45,8 @@ class Vgg19:
             
         
     def create_layers(self):
-        mat = spio.loadmat('../Internal-External/imagenet-vgg-verydeep-19.mat')
+        # mat = spio.loadmat('../Internal-External/imagenet-vgg-verydeep-19.mat')
+        mat = spio.loadmat('models/imagenet-vgg-verydeep-19.mat')
         layers = mat['layers']
         
         self.conv1_1 = self.create_conv(self.image_tensor, 'conv1_1', layers[0][0][0][0][2][0][0])
