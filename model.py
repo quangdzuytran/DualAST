@@ -570,8 +570,9 @@ class Artgan(object):
             else:
                 pass
             img_name = os.path.basename(img_path)
-            #scipy.misc.imsave(os.path.join(to_save_dir, img_name[:-4] + "_stylized.jpg"), img)
-            scipy.misc.imsave(os.path.join(to_save_dir, img_name[:-4] + "_stylized_" + "vincent-van-gogh" + ".jpg"), img)
+            # scipy.misc.imsave(os.path.join(to_save_dir, img_name[:-4] + "_stylized.jpg"), img)
+            # scipy.misc.imsave(os.path.join(to_save_dir, img_name[:-4] + "_stylized_" + "vincent-van-gogh" + ".jpg"), img)
+            scipy.misc.imsave(os.path.join(to_save_dir, img_name[:-4] + "_stylized_" + self.model_name + ".jpg"), img)
 
         print("Inference is finished.")
 
