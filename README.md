@@ -39,7 +39,8 @@ python main.py --model_name=van-gogh \
                --image_size=1280 \
                --ii_dir images/content/ \
                --reference images/reference/van-gogh/1.jpg \
-               --save_dir=models/van-gogh/inference
+               --save_dir=models/van-gogh/inference \
+               --chpt_nmbr=300000
 ```
 ![image](https://github.com/HalbertCH/DualAST/blob/main/results/2.png) 
   
