@@ -19,7 +19,7 @@ from __future__ import print_function
 
 import tensorflow as tf
 
-import vgg_preprocessing
+import feature_extractor.preprocessing.vgg_preprocessing as vgg_preprocessing
 
 slim = tf.contrib.slim
 

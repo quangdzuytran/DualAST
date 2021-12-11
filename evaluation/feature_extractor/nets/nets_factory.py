@@ -20,7 +20,7 @@ from __future__ import print_function
 import functools
 
 import tensorflow as tf
-import vgg
+import feature_extractor.nets.vgg as vgg
 
 slim = tf.contrib.slim
 

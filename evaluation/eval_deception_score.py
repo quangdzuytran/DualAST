@@ -89,7 +89,7 @@ classification_layer = {
 def run(extractor, classification_layer, images_df, batch_size=64, logger=Logger()):
     images_df = images_df.copy()
     if len(images_df) == 0:
-        print 'No images found!'
+        print('No images found!')
         return -1, 0, 0
     probs = extractor.extract(images_df['image_path'].values, [classification_layer],
                               verbose=1, batch_size=batch_size)
@@ -107,7 +107,7 @@ def run(extractor, classification_layer, images_df, batch_size=64, logger=Logger
 # image filenames must be in format "{content_name}_stylized_{artist_name}.jpg"
 # uncomment methods which you want to evaluate and set the paths to the folders with the stylized images
 results_dir = {
-    'ours': 'path/to/our/stylizations',
+    'ours': '../images/val_res',
     # 'gatys': 'path/to/gatys_stylizations',
     # 'cyclegan': '',
     # 'adain': '',
@@ -117,19 +117,23 @@ results_dir = {
 }
 
 
-style_2_image_name = {u'berthe-morisot': u'Morisot-1886-the-lesson-in-the-garden',
-		      u'claude-monet': u'monet-1914-water-lilies-37.jpg!HD',
-		      u'edvard-munch': u'Munch-the-scream-1893',
-		      u'el-greco': u'el-greco-the-resurrection-1595.jpg!HD',
-		      u'ernst-ludwig-kirchner': u'Kirchner-1913-street-berlin.jpg!HD',
-		      u'jackson-pollock': u'Pollock-number-one-moma-November-31-1950-1950',
-		      u'nicholas-roerich': u'nicholas-roerich_mongolia-campaign-of-genghis-khan',
-		      u'pablo-picasso': u'weeping-woman-1937',
-		      u'paul-cezanne': u'still-life-with-apples-1894.jpg!HD',
-		      u'paul-gauguin': u'Gauguin-the-seed-of-the-areoi-1892',
-		      u'samuel-peploe': u'peploe-ile-de-brehat-1911-1',
-		      u'vincent-van-gogh': u'vincent-van-gogh_road-with-cypresses-1890',
-		      u'wassily-kandinsky': u'Kandinsky-improvisation-28-second-version-1912'}
+#style_2_image_name = {u'berthe-morisot': u'Morisot-1886-the-lesson-in-the-garden',
+		      #u'claude-monet': u'monet-1914-water-lilies-37.jpg!HD',
+		      #u'edvard-munch': u'Munch-the-scream-1893',
+		      #u'el-greco': u'el-greco-the-resurrection-1595.jpg!HD',
+		      #u'ernst-ludwig-kirchner': u'Kirchner-1913-street-berlin.jpg!HD',
+		      #u'jackson-pollock': u'Pollock-number-one-moma-November-31-1950-1950',
+		      #u'nicholas-roerich': u'nicholas-roerich_mongolia-campaign-of-genghis-khan',
+		      #u'pablo-picasso': u'weeping-woman-1937',
+		      #u'paul-cezanne': u'still-life-with-apples-1894.jpg!HD',
+		      #u'paul-gauguin': u'Gauguin-the-seed-of-the-areoi-1892',
+		      #u'samuel-peploe': u'peploe-ile-de-brehat-1911-1',
+		      #u'vincent-van-gogh': u'vincent-van-gogh_road-with-cypresses-1890',
+		      #u'wassily-kandinsky': u'Kandinsky-improvisation-28-second-version-1912'}
+
+style_2_image_name = {u'claude-monet': u'monet-1914-water-lilies-37.jpg!HD',
+                      u'paul-cezanne': u'still-life-with-apples-1894.jpg!HD',
+                      u'vincent-van-gogh': u'vincent-van-gogh_road-with-cypresses-1890'}
 
 
 artist_2_label_wikiart = get_artist_labels_wikiart()
@@ -168,14 +172,18 @@ def sprint_stats(stats):
 
 
 if __name__ == '__main__':
+    import tensorflow as tf
+    physical_devices = tf.config.experimental.list_physical_devices('GPU')
+    tf.config.experimental.set_memory_growth(physical_devices[0], True)
     import sys
 
     args = parse_args(sys.argv[1:])
+    print("[DEBUG]:", args['batch_size'])
 
     if not os.path.exists(os.path.dirname(args['log_path'])):
         os.makedirs(os.path.dirname(args['log_path']))
     logger = Logger(args['log_path'])
-    print 'Snapshot: {}'.format(args['snapshot_path'])
+    print('Snapshot: {}'.format(args['snapshot_path']))
     extractor = create_slim_extractor(args)
     classification_layer = classification_layer[args['net']]
 
@@ -190,7 +198,7 @@ if __name__ == '__main__':
         stats[artist] = (acc, num_is_correct, num_total)
 
     logger.log('{}'.format(pformat(args)))
-    print 'Images dir:', results_dir[args['method']]
+    print('Images dir:', results_dir[args['method']])
     logger.log('===\n\n')
     logger.log(args['method'])
     logger.log('{}'.format(sprint_stats(stats)))

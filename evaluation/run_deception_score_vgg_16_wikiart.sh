@@ -35,5 +35,6 @@ do
         -log=${LOG_DIR}/deception_score_${method}.txt \
         --method=$method \
         --num_classes=624 \
-        --dataset="wikiart"
+        --dataset="wikiart" \
+        --batch-size=1
 done

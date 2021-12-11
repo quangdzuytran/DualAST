@@ -114,7 +114,7 @@ def extract_features(flipped, net=None, frame_ids=None, layer_names=None,
 
     tensors_to_get = [net.__getattribute__(name) for name in layer_names]
     if verbose >= 2:
-        print 'Tensors to extract:', tensors_to_get
+        print('Tensors to extract:', tensors_to_get)
     d = dict()
     if frame_ids is None:
         if hasattr(image_getter, 'total_num_images'):
@@ -135,7 +135,7 @@ def extract_features(flipped, net=None, frame_ids=None, layer_names=None,
     else:
         num_batches = int(math.ceil(len(frame_ids) / batch_size))
         if verbose >= 2:
-            print 'Running {} iterations with batch_size={}'.format(num_batches, batch_size)
+            print('Running {} iterations with batch_size={}'.format(num_batches, batch_size))
         for step, batch_start in tqdm(enumerate(range(0, len(frame_ids), batch_size)),
                                       total=num_batches, disable=(verbose == 0)):
             batch_idxs = frame_ids[batch_start:batch_start + batch_size]
@@ -183,7 +183,7 @@ def extract_features_from_batch_iterator(net, batch_iterator, tensors_to_get,
     Returns: out_features_dict
     """
     if verbose >= 2:
-        print 'Running {} iterations (from batch_iterator)'.format(len(batch_iterator))
+        print('Running {} iterations (from batch_iterator)'.format(len(batch_iterator)))
     for step, batch in tqdm(enumerate(batch_iterator), total=len(batch_iterator), disable=(verbose == 0)):
 
         feed_dict = {input_pl_name + ':0': batch}

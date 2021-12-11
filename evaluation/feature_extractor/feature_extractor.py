@@ -21,17 +21,16 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 from tensorflow.python import pywrap_tensorflow
 
-from features import extract_features
-import image_getter
+from feature_extractor.features import extract_features
+import feature_extractor.image_getter as image_getter
 
-from nets import nets_factory
-from preprocessing import preprocessing_factory
+from feature_extractor.nets import nets_factory
+from feature_extractor.preprocessing import preprocessing_factory
 
 classifier_scope = {
     'inception_v1': 'InceptionV1/Logits',
     'vgg_16': 'vgg_16/fc8'
 }
-
 
 class SlimFeatureExtractor(object):
     def __init__(self, net_name, snapshot_path,
@@ -113,7 +112,7 @@ class SlimFeatureExtractor(object):
                 self.MaxPool_0a_7x7 = tf.get_default_graph().get_tensor_by_name("InceptionV1/Logits/MaxPool_0a_7x7/AvgPool:0")
             elif net_name in ['vgg_16', 'vgg_16_multihead']:
                 for layer_name in ['fc6', 'fc7'] + \
-                        ['conv{0}/conv{0}_{1}'.format(i, j) for i in xrange(3, 6) for j in xrange(1, 4)]:
+                        ['conv{0}/conv{0}_{1}'.format(i, j) for i in range(3, 6) for j in range(1, 4)]:
                     self.__dict__['vgg_16/{}_prerelu'.format(layer_name)] = \
                         tf.get_default_graph().get_tensor_by_name("vgg_16/{}/BiasAdd:0".format(layer_name))
             config = tf.ConfigProto(gpu_options=

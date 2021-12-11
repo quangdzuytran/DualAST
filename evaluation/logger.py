@@ -25,14 +25,14 @@ class Logger(object):
         self.file = None
         self.filepath = filepath
         if filepath is not None:
-            self.file = open(filepath, mode=mode, buffering=0)
+            self.file = open(filepath, mode=mode)
 
     def __enter__(self):
         return self
 
     def log(self, msg, should_print=True):
         if should_print:
-            print '[LOG] {}'.format(msg)
+            print('[LOG] {}'.format(msg))
         if self.file is not None:
             self.file.write('{}\n'.format(msg))
 
@@ -55,7 +55,7 @@ def log(logger, msg, should_print=True):
         logger.log(msg, should_print)
     else:
         if should_print:
-            print msg
+            print(msg)
 
 
 class Tee:

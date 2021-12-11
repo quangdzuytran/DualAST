@@ -224,7 +224,7 @@ def vgg_16_multihead(inputs,
                                scope='dropout7')
 
             heads = dict()
-            for task_name, task_num_classes in tasks_dict.iteritems():
+            for task_name, task_num_classes in tasks_dict.items():
                 heads[task_name] = slim.conv2d(net, task_num_classes, [1, 1],
                                                activation_fn=None,
                                                normalizer_fn=None,
@@ -232,7 +232,7 @@ def vgg_16_multihead(inputs,
 
             end_points = slim.utils.convert_collection_to_dict(end_points_collection)
             if spatial_squeeze:
-                for task_name, cur_head in heads.iteritems():
+                for task_name, cur_head in heads.items():
                     heads[task_name] = tf.squeeze(cur_head, [1, 2],
                                                   name='fc8_{}/squeezed'.format(task_name))
                     pos = heads[task_name].name.find('fc8_{}/squeezed'.format(task_name))
