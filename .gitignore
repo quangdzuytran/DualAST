@@ -1,0 +1,6 @@
+__pycache__/
+evaluation/evaluation_data/split.hdf5
+evaluation/evaluation_data/model*
+models/
+images/validation/
+images/val_res/
