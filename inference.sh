@@ -1,6 +1,6 @@
 #!/bin/bash
-source /opt/miniconda3/bin/activate
-conda activate dualast
+# source /opt/miniconda3/bin/activate
+# conda activate dualast
 for artist in 'claude-monet' 'paul-cezanne' 'vincent-van-gogh'
     do
         python main.py --model_name=$artist \
