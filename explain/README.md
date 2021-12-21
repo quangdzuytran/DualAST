@@ -47,3 +47,17 @@
 	for file in tqdm(filenames):
 		shutil.copy2(file, "/content/DualAST/images/validation/")
 	```
+	- Ta chạy file [download_evaluation_data.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/download_evaluation_data.py) vì trong đây là code để chúng ta tải và giải mô hình wikiArt về để đánh giá.
+	- Trong file [check_fc8_labels.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/check_fc8_labels.py) chúng ta đọc dữ liệu từ 'evaluation_data/split.hdf5' để ánh xạ tên của phong cách nghệ thuật về output của mô hình wikiArt. Vì output của mô hình sau khi lấy argmax là các index của lớp được dự đoán chứ không phải tên của lớp đó.
+	- Ta cài đặt một logger và lưu trong file [logger.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/logger.py) để ghi log quá trình tính toán.
+	- Trong [feature_extractor](https://github.com/quangdzuytran/DualAST/tree/main/evaluation/feature_extractor) là code mô hình dùng để đánh giá. Chúng ta load weight vgg16 được huyến huấn luyện trên wikiArt để đánh giá mô hình.
+		- Trong file [image_getter.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/feature_extractor/image_getter.py) là 2 class **ImageGetterFromMat** đọc hình ảnh từ định dạng mat. Và **ImageGetterFromPaths** để đọc các hình trong một dường dẫn.
+		- Trong file [features.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/feature_extractor/features.py) là các hàm để phụ trợ cho quá trình rút trích đặt trưng.
+		- Trong file [feature_extractor.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/feature_extractor/feature_extractor.py) là class **SlimFeatureExtractor** dựa theo cài đặt của mô hình để rút trích đặt trưng cho các ảnh trong một thư mục.
+		- Trong [preprocessing](https://github.com/quangdzuytran/DualAST/tree/main/evaluation/feature_extractor/preprocessing) là các phép toán preprocessing dữ liệu như scrop, resize,...
+		- Trong [nets](https://github.com/quangdzuytran/DualAST/tree/main/evaluation/feature_extractor/nets) là backbone của mô hình và một [nets_factory](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/feature_extractor/nets/nets_factory.py) để chúng ta lựa chọn vgg16 hay vgg19
+	- Trong file [eval_deception_score.py](https://github.com/quangdzuytran/DualAST/blob/main/evaluation/eval_deception_score.py) bao gồm main để tính toán chính và các hàm khác để phụ trợ.
+		- Từ dòng [175-190](https://github.com/quangdzuytran/DualAST/blob/5d6d5970d687c9e40a5bab83aac0a39ccc7e0622/evaluation/eval_deception_score.py#L175-L190) là phần đầu của main. Ta khởi tạo các biến cần thiết cho quá trình tính toán như logger, extract (để rút trích đặt trưng),...
+		- Từ dòng [192-198](https://github.com/quangdzuytran/DualAST/blob/5d6d5970d687c9e40a5bab83aac0a39ccc7e0622/evaluation/eval_deception_score.py#L192-L198) với mỗi phong cách nghệ thuật ta thực hiện hàm run để tính toán kết quả độ chính xác của mô hình classify.
+		- Trong hàm [run](https://github.com/quangdzuytran/DualAST/blob/5d6d5970d687c9e40a5bab83aac0a39ccc7e0622/evaluation/eval_deception_score.py#L89-L104) ta thực hiện classify xem hình ảnh được truyền phong cách có được classify thành phong cách đó hay không. Với mô hình là extractor truyền vào mà cũng chính là mô hình được huấn luyện trên wikiArt.
+		- Từ dòng [200-204](https://github.com/quangdzuytran/DualAST/blob/5d6d5970d687c9e40a5bab83aac0a39ccc7e0622/evaluation/eval_deception_score.py#L200-L204) là quá trình ta ghi log kết quả.
