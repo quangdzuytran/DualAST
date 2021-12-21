@@ -1,6 +1,14 @@
 # Giải thích code
 - Đầu tiên chúng ta khởi tạo backbone là mô hình vgg-19 đã train trên tập ImageNet trong file [vgg19.py](https://github.com/quangdzuytran/DualAST/blob/main/vgg19.py)
-- Trong file [prepare_dataset.py](https://github.com/quangdzuytran/DualAST/blob/main/prepare_dataset.py) có 2 class **ArtDataset** và **PlacesDataset**. Điểm khác nhau của 2 class này là class **PlacesDataset** lấy các ảnh trong từng loại địa điểm đúng theo format của tập dữ liệu. Còn **ArtDataset** đọc các ảnh trong thư mục truyền vào.
+- Trong file [img_augm.py](https://github.com/quangdzuytran/DualAST/blob/main/img_augm.py) thì ta có class [Augmentor](https://github.com/quangdzuytran/DualAST/blob/1dd1b4b52b910e25e1a807198e36174b6228c4b6/img_augm.py#L24-L186) gồm các phép làm tăng cường và biến đổi ảnh như rotation, flip, crop,...
+- Trong file [prepare_dataset.py](https://github.com/quangdzuytran/DualAST/blob/main/prepare_dataset.py) có 2 class **ArtDataset** và **PlacesDataset**. Điểm khác nhau của 2 class này là class **PlacesDataset** lấy các ảnh trong từng loại địa điểm đúng theo format của tập dữ liệu. Còn **ArtDataset** đọc các ảnh trong thư mục truyền vào. Khi đọc dữ liệu ta truyền vào **Augmentor** để tăng cường và biến đổi hình ảnh.
 	- [ArtDataset](https://github.com/quangdzuytran/DualAST/blob/cb159deb7638c5bb0544a8640c4704ffe683d00e/prepare_dataset.py#L29-L76): Dùng để đọc một batch các ảnh art trong một thư mục truyền vào.
 	- [PlacesDataset](https://github.com/quangdzuytran/DualAST/blob/cb159deb7638c5bb0544a8640c4704ffe683d00e/prepare_dataset.py#L79-L156): Dùng để đọc một batch các ảnh của Places365 dataset trong một thư mục truyền vào.
-
+- Trong file [ops.py](https://github.com/quangdzuytran/DualAST/blob/main/ops.py) ta cài đặt các lớp cần thiết cho mô hình như fully_connected, flatten,...
+- Trong file [module.py](https://github.com/quangdzuytran/DualAST/blob/main/module.py) ta có:
+	- [encoder](https://github.com/quangdzuytran/DualAST/blob/1dd1b4b52b910e25e1a807198e36174b6228c4b6/module.py#L23-L58) như đã được nêu trong paper, encoder bao gồm 1 stride-1 và 4 stride-2 lớp tích chập.
+	- [decoder](https://github.com/quangdzuytran/DualAST/blob/1dd1b4b52b910e25e1a807198e36174b6228c4b6/module.py#L85-L146) bao gồm 9 khối residual, 4 khối upsampling, và 1 lớp tích chập.
+	- [SCB](https://github.com/quangdzuytran/DualAST/blob/1dd1b4b52b910e25e1a807198e36174b6228c4b6/module.py#L61-L82) bao gồm 1 stride-1 và 2 stride-2 lớp tích chập.
+	- [style discriminator](https://github.com/quangdzuytran/DualAST/blob/1dd1b4b52b910e25e1a807198e36174b6228c4b6/module.py#L149-L198) là một mạng tích chập với 7 lớp tích chập stride-2.
+	- [feature discriminator](https://github.com/quangdzuytran/DualAST/blob/1dd1b4b52b910e25e1a807198e36174b6228c4b6/module.py#L201-L215) bao gồm 3 stride-2 lớp tích chập và 1 lớp fully connected.
+	- Và các hàm loss dùng cho discriminator.
