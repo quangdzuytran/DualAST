@@ -11,6 +11,8 @@ Nhóm DKV:
 ## Colab
 Chạy mã nguồn trên môi trường colab bằng [đường dẫn](https://colab.research.google.com/drive/1P1x4H7Zbmiis7cv6ggHHxrlUqzJAvoKf?usp=sharing).
 
+Nhóm có thực hiện giải thích mã nguồn [tại đây](https://github.com/quangdzuytran/DualAST/blob/main/explain/README.md)
+
 ## Requirements  
 Môi trường để chạy mã nguồn:  
 - python 3.7
